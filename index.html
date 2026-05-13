@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Global Citizen Portfolio</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><radialGradient id='g' cx='50%25' cy='40%25' r='60%25'><stop offset='0%25' stop-color='%231a1a2e'/><stop offset='100%25' stop-color='%2316213e'/></radialGradient></defs><rect width='64' height='64' rx='14' fill='url(%23g)'/><circle cx='32' cy='32' r='18' fill='none' stroke='%236BCB77' stroke-width='2'/><ellipse cx='32' cy='32' rx='8' ry='18' fill='none' stroke='%236BCB77' stroke-width='1.5'/><line x1='14' y1='32' x2='50' y2='32' stroke='%236BCB77' stroke-width='1.5'/><line x1='17' y1='22' x2='47' y2='22' stroke='%236BCB77' stroke-width='1'/><line x1='17' y1='42' x2='47' y2='42' stroke='%236BCB77' stroke-width='1'/><circle cx='32' cy='32' r='3' fill='%23FFD93D'><animate attributeName='opacity' values='1;0.3;1' dur='2s' repeatCount='indefinite'/></circle></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -20,455 +21,210 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); overflow-x: hidden; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    overflow-x: hidden;
-  }
-
-  /* ── STICKY NAV / TOC ── */
+  /* ── SIDEBAR ── */
   #toc-sidebar {
-    position: fixed;
-    left: 0; top: 0;
-    width: 220px;
-    height: 100vh;
-    background: var(--dark);
-    color: #fff;
+    position: fixed; left: 0; top: 0;
+    width: 220px; height: 100vh;
+    background: var(--dark); color: #fff;
     padding: 28px 18px;
-    z-index: 999;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    z-index: 999; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 6px;
     box-shadow: 4px 0 20px rgba(0,0,0,.3);
   }
-
   #toc-sidebar h2 {
     font-family: 'Space Mono', monospace;
-    font-size: .65rem;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--c2);
-    margin-bottom: 14px;
+    font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--c2); margin-bottom: 14px;
   }
-
   .toc-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 10px;
-    border-radius: 8px;
-    text-decoration: none;
-    color: rgba(255,255,255,.75);
-    font-size: .78rem;
-    font-weight: 500;
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 10px; border-radius: 8px;
+    text-decoration: none; color: rgba(255,255,255,.75);
+    font-size: .78rem; font-weight: 500;
     transition: background .2s, color .2s;
-    cursor: pointer;
   }
-
   .toc-item:hover { background: rgba(255,255,255,.12); color: #fff; }
+  .toc-item.active { background: rgba(255,255,255,.15); color: #fff; }
+  .toc-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
-  .toc-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  /* ── MAIN LAYOUT ── */
+  /* ── MAIN ── */
   main { margin-left: 220px; }
 
-  /* ── PAGES ── */
   .page {
-    min-height: 100vh;
-    padding: 60px 60px 60px 70px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
+    min-height: 100vh; padding: 60px 60px 60px 70px;
+    position: relative; display: flex;
+    flex-direction: column; justify-content: center; overflow: hidden;
   }
 
-  /* ── PAGE 1: TITLE ── */
-  #page-title {
-    background: var(--dark);
-    color: #fff;
-    align-items: center;
-    text-align: center;
-  }
-
+  /* ── PAGE 1 ── */
+  #page-title { background: var(--dark); color: #fff; align-items: center; text-align: center; }
   .title-bg-circles span {
-    position: absolute;
-    border-radius: 50%;
-    opacity: .18;
+    position: absolute; border-radius: 50%; opacity: .18;
     animation: float 6s ease-in-out infinite;
   }
-
-  @keyframes float {
-    0%,100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-20px) scale(1.05); }
-  }
+  @keyframes float { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-20px) scale(1.05);} }
 
   .title-badge {
-    display: inline-block;
-    background: var(--c2);
-    color: var(--dark);
-    font-family: 'Space Mono', monospace;
-    font-size: .7rem;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    padding: 6px 18px;
-    border-radius: 20px;
-    margin-bottom: 28px;
+    display: inline-block; background: var(--c2); color: var(--dark);
+    font-family: 'Space Mono', monospace; font-size: .7rem;
+    letter-spacing: .18em; text-transform: uppercase;
+    padding: 6px 18px; border-radius: 20px; margin-bottom: 28px;
     animation: slideDown .8s ease both;
   }
-
-  @keyframes slideDown {
-    from { opacity:0; transform: translateY(-20px); }
-    to   { opacity:1; transform: translateY(0); }
-  }
+  @keyframes slideDown { from{opacity:0;transform:translateY(-20px);} to{opacity:1;transform:translateY(0);} }
 
   .title-main {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2.4rem, 5vw, 4.2rem);
-    font-weight: 900;
-    line-height: 1.1;
+    font-size: clamp(2.4rem, 5vw, 4.2rem); font-weight: 900; line-height: 1.1;
     animation: slideDown .9s .15s ease both;
   }
-
   .title-main span { color: var(--c1); font-style: italic; }
-
-  .title-sub {
-    margin-top: 20px;
-    font-size: 1rem;
-    color: rgba(255,255,255,.65);
-    animation: slideDown .9s .3s ease both;
-  }
-
-  .title-meta {
-    margin-top: 36px;
-    display: flex;
-    gap: 24px;
-    justify-content: center;
-    flex-wrap: wrap;
-    animation: slideDown .9s .45s ease both;
-  }
-
+  .title-sub { margin-top: 20px; font-size: 1rem; color: rgba(255,255,255,.65); animation: slideDown .9s .3s ease both; }
+  .title-meta { margin-top: 36px; display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; animation: slideDown .9s .45s ease both; }
   .title-meta-chip {
-    background: rgba(255,255,255,.1);
-    border: 1px solid rgba(255,255,255,.2);
-    border-radius: 12px;
-    padding: 12px 24px;
-    font-size: .9rem;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+    border-radius: 12px; padding: 12px 24px; font-size: .9rem;
   }
-
   .title-meta-chip strong { color: var(--c3); display: block; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 2px; }
 
-  /* ── PAGE 2: TABLE OF CONTENTS ── */
-  #page-toc {
-    background: linear-gradient(135deg, #fff9f0 0%, #fff0f9 100%);
-  }
+  /* ── PAGE 2 ── */
+  #page-toc { background: linear-gradient(135deg, #fff9f0 0%, #fff0f9 100%); }
+  .section-label { font-family: 'Space Mono', monospace; font-size: .65rem; letter-spacing: .2em; text-transform: uppercase; color: #999; margin-bottom: 12px; }
+  .section-heading { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 900; margin-bottom: 36px; line-height: 1.15; }
 
-  .section-label {
-    font-family: 'Space Mono', monospace;
-    font-size: .65rem;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: #999;
-    margin-bottom: 12px;
-  }
-
-  .section-heading {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-    font-weight: 900;
-    margin-bottom: 36px;
-    line-height: 1.15;
-  }
-
-  .toc-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
-    max-width: 900px;
-  }
-
+  .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; max-width: 900px; }
   .toc-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 20px 22px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    text-decoration: none;
-    color: var(--ink);
+    background: #fff; border-radius: 16px; padding: 20px 22px;
+    display: flex; align-items: center; gap: 16px;
+    text-decoration: none; color: var(--ink);
     border: 2px solid transparent;
     box-shadow: 0 2px 12px rgba(0,0,0,.06);
     transition: transform .2s, box-shadow .2s, border-color .2s;
   }
-
-  .toc-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 28px rgba(0,0,0,.12);
-  }
-
-  .toc-num {
-    width: 42px; height: 42px;
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Space Mono', monospace;
-    font-weight: 700;
-    font-size: .85rem;
-    flex-shrink: 0;
-    color: #fff;
-  }
-
+  .toc-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,.12); }
+  .toc-num { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-weight: 700; font-size: .85rem; flex-shrink: 0; color: #fff; }
   .toc-label { font-weight: 500; font-size: .9rem; line-height: 1.3; }
 
-  .doc-link-box {
-    margin-top: 32px;
-    background: var(--dark);
-    color: #fff;
-    border-radius: 16px;
-    padding: 22px 28px;
-    max-width: 600px;
-    display: flex;
-    align-items: center;
-    gap: 18px;
-  }
+  .doc-link-box { margin-top: 32px; background: var(--dark); color: #fff; border-radius: 16px; padding: 22px 28px; max-width: 600px; display: flex; align-items: center; gap: 18px; }
+  .doc-link-icon { width: 48px; height: 48px; background: var(--c3); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+  .doc-link-box a { color: var(--c2); font-size: .85rem; word-break: break-all; }
 
-  .doc-link-icon {
-    width: 48px; height: 48px;
-    background: var(--c3);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.4rem;
-    flex-shrink: 0;
-  }
-
-  .doc-link-box a {
-    color: var(--c2);
-    font-size: .85rem;
-    word-break: break-all;
-  }
-
-  /* ── PAGE 3: INTRO ── */
-  #page-intro {
-    background: linear-gradient(160deg, #e8f4ff 0%, #f0ffe8 100%);
-  }
-
-  .intro-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 56px;
-    align-items: center;
-    max-width: 960px;
-  }
-
-  .profile-card {
-    background: #fff;
-    border-radius: 24px;
-    padding: 36px;
-    box-shadow: 0 8px 32px rgba(0,0,0,.1);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .profile-avatar {
-    width: 100px; height: 100px;
-    border-radius: 50%;
-    margin: 0 auto 16px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.8rem;
-    background: linear-gradient(135deg, var(--c4), var(--c5));
-  }
-
-  .profile-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-bottom: 4px;
-  }
-
-  .profile-role {
-    font-size: .8rem;
-    color: #888;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-
-  .profile-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-  }
-
-  .profile-tag {
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: .75rem;
-    font-weight: 500;
-    color: #fff;
-  }
-
-  .intro-text p {
-    font-size: 1rem;
-    line-height: 1.8;
-    color: #444;
-    margin-bottom: 16px;
-  }
+  /* ── PAGE 3 ── */
+  #page-intro { background: linear-gradient(160deg, #e8f4ff 0%, #f0ffe8 100%); }
+  .intro-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; max-width: 960px; }
+  .profile-card { background: #fff; border-radius: 24px; padding: 36px; box-shadow: 0 8px 32px rgba(0,0,0,.1); text-align: center; position: relative; overflow: hidden; }
+  .profile-avatar { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 2.8rem; background: linear-gradient(135deg, var(--c4), var(--c5)); }
+  .profile-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 4px; }
+  .profile-role { font-size: .8rem; color: #888; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 20px; }
+  .profile-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .profile-tag { padding: 5px 14px; border-radius: 20px; font-size: .75rem; font-weight: 500; color: #fff; }
+  .intro-text p { font-size: 1rem; line-height: 1.8; color: #444; margin-bottom: 16px; }
 
   /* ── ACTIVITY PAGES ── */
   .activity-page { background: #fff; border-top: 6px solid; }
+  .activity-header { display: flex; align-items: flex-start; gap: 20px; margin-bottom: 32px; }
+  .activity-icon { width: 64px; height: 64px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; flex-shrink: 0; }
+  .activity-cat { font-family: 'Space Mono', monospace; font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 4px; }
+  .activity-title { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 700; line-height: 1.2; }
+  .activity-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  .meta-chip { display: flex; align-items: center; gap: 6px; background: #f5f5f5; border-radius: 8px; padding: 7px 14px; font-size: .8rem; font-weight: 500; }
 
-  .activity-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 32px;
-  }
+  .activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 860px; }
+  .activity-box { background: #fafafa; border-radius: 16px; padding: 22px; border: 1.5px solid #eee; }
+  .activity-box h4 { font-size: .72rem; letter-spacing: .14em; text-transform: uppercase; color: #999; margin-bottom: 10px; font-family: 'Space Mono', monospace; }
+  .activity-box p { font-size: .92rem; line-height: 1.75; color: #444; }
 
-  .activity-icon {
-    width: 64px; height: 64px;
-    border-radius: 18px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 1.8rem;
-    flex-shrink: 0;
-  }
+  /* ── EVIDENCE BOX — THE KEY FIX ── */
+  .evidence-box { grid-column: 1 / -1; background: linear-gradient(135deg, #f0f8ff, #f8f0ff); border-style: dashed; }
 
-  .activity-cat {
-    font-family: 'Space Mono', monospace;
-    font-size: .62rem;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    margin-bottom: 4px;
-  }
-
-  .activity-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.4rem, 2.5vw, 2rem);
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
-  .activity-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 28px;
-  }
-
-  .meta-chip {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: #f5f5f5;
-    border-radius: 8px;
-    padding: 7px 14px;
-    font-size: .8rem;
-    font-weight: 500;
-  }
-
-  .activity-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    max-width: 860px;
-  }
-
-  .activity-box {
-    background: #fafafa;
-    border-radius: 16px;
-    padding: 22px;
-    border: 1.5px solid #eee;
-  }
-
-  .activity-box h4 {
-    font-size: .72rem;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: #999;
-    margin-bottom: 10px;
-    font-family: 'Space Mono', monospace;
-  }
-
-  .activity-box p {
-    font-size: .92rem;
-    line-height: 1.75;
-    color: #444;
-  }
-
-  .evidence-box {
-    grid-column: 1 / -1;
-    background: linear-gradient(135deg, #f0f8ff, #f8f0ff);
-    border-style: dashed;
-  }
-
-  .evidence-placeholder {
+  .evidence-img-wrap {
     width: 100%;
-    height: 140px;
-    background: rgba(0,0,0,.04);
+    height: 280px;               /* fixed, uniform height */
     border-radius: 10px;
+    overflow: hidden;             /* clips whatever is inside */
+    border: 2px dashed #ddd;
+    background: rgba(0,0,0,.03);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #bbb;
-    font-size: .85rem;
+    margin-top: 8px;
+    cursor: zoom-in;
+    position: relative;
+    transition: border-color .2s;
+  }
+  .evidence-img-wrap:hover { border-color: #aaa; }
+
+  .evidence-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;          /* scales proportionally, no crop */
+    padding: 12px;
+    display: block;
+    transition: transform .3s ease;
+  }
+  .evidence-img-wrap:hover img { transform: scale(1.04); }
+
+  .evidence-img-wrap .zoom-hint {
+    position: absolute; bottom: 8px; right: 10px;
+    background: rgba(0,0,0,.5); color: rgba(255,255,255,.85);
+    font-size: .58rem; letter-spacing: .1em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 20px; font-family: 'Space Mono', monospace;
+    opacity: 0; transition: opacity .2s; pointer-events: none;
+  }
+  .evidence-img-wrap:hover .zoom-hint { opacity: 1; }
+
+  /* empty placeholder (no image) */
+  .evidence-empty {
+    width: 100%; height: 160px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: #bbb; font-size: .85rem;
     border: 2px dashed #ddd;
     margin-top: 8px;
+    background: rgba(0,0,0,.03);
   }
+
+  /* ── LIGHTBOX ── */
+  #lb {
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.93); backdrop-filter: blur(12px);
+    align-items: center; justify-content: center; cursor: zoom-out;
+  }
+  #lb.open { display: flex; }
+  #lb img {
+    max-width: 90vw; max-height: 88vh; border-radius: 12px;
+    box-shadow: 0 24px 80px rgba(0,0,0,.55); object-fit: contain;
+    animation: lbIn .22s ease;
+  }
+  @keyframes lbIn { from{opacity:0;transform:scale(.93);} to{opacity:1;transform:scale(1);} }
+  #lb-x {
+    position: fixed; top: 18px; right: 22px;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+    color: #fff; font-size: 1.1rem; width: 38px; height: 38px;
+    border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+  }
+  #lb-x:hover { background: rgba(255,255,255,.22); }
+  #lb-cap { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,.4); font-size: .7rem; font-family: 'Space Mono', monospace; }
 
   /* ── CONCLUSION ── */
-  #page-conclusion {
-    background: var(--dark);
-    color: #fff;
-    justify-content: flex-start;
-  }
-
-  .conclusion-content {
-    max-width: 760px;
-  }
-
+  #page-conclusion { background: var(--dark); color: #fff; justify-content: flex-start; }
+  .conclusion-content { max-width: 760px; }
   .conclusion-content .section-label { color: rgba(255,255,255,.4); }
-
   .conclusion-content .section-heading { color: #fff; }
-
-  .conclusion-content p {
-    font-size: 1rem;
-    line-height: 1.85;
-    color: rgba(255,255,255,.75);
-    margin-bottom: 20px;
-  }
-
-  .conclusion-pillars {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-    margin: 32px 0;
-  }
-
-  .pillar {
-    background: rgba(255,255,255,.07);
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 14px;
-    padding: 20px;
-  }
-
+  .conclusion-content p { font-size: 1rem; line-height: 1.85; color: rgba(255,255,255,.75); margin-bottom: 20px; }
+  .conclusion-pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 32px 0; }
+  .pillar { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 20px; }
   .pillar-icon { font-size: 1.6rem; margin-bottom: 8px; }
   .pillar h4 { font-size: .85rem; font-weight: 600; margin-bottom: 6px; color: var(--c2); }
   .pillar p { font-size: .8rem; color: rgba(255,255,255,.6); line-height: 1.6; }
 
-  /* ── DIVIDERS ── */
-  .page-divider {
-    height: 4px;
-    background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c4), var(--c5));
-  }
+  /* ── DIVIDER ── */
+  .page-divider { height: 4px; background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3), var(--c4), var(--c5)); }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
@@ -480,163 +236,81 @@
     .conclusion-pillars { grid-template-columns: 1fr; }
   }
 
-  /* scroll reveal */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity .6s ease, transform .6s ease;
-  }
-  .reveal.visible { opacity:1; transform: translateY(0); }
+  /* ── REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════
-     SIDEBAR TABLE OF CONTENTS
-══════════════════════════════════════ -->
+<!-- LIGHTBOX -->
+<div id="lb">
+  <button id="lb-x">✕</button>
+  <img id="lb-img" src="" alt="">
+  <div id="lb-cap"></div>
+</div>
+
+<!-- ── SIDEBAR ── -->
 <nav id="toc-sidebar">
   <h2>📋 Contents</h2>
-  <a class="toc-item" href="#page-title">
-    <span class="toc-dot" style="background:var(--c1)"></span> Title Page
-  </a>
-  <a class="toc-item" href="#page-toc">
-    <span class="toc-dot" style="background:var(--c2)"></span> Table of Contents
-  </a>
-  <a class="toc-item" href="#page-intro">
-    <span class="toc-dot" style="background:var(--c3)"></span> Introduction
-  </a>
-
+  <a class="toc-item" href="#page-title"><span class="toc-dot" style="background:var(--c1)"></span> Title Page</a>
+  <a class="toc-item" href="#page-toc"><span class="toc-dot" style="background:var(--c2)"></span> Table of Contents</a>
+  <a class="toc-item" href="#page-intro"><span class="toc-dot" style="background:var(--c3)"></span> Introduction</a>
   <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:14px 0 4px;padding-left:18px;">Global Awareness</div>
-
-  <a class="toc-item" href="#act-1">
-    <span class="toc-dot" style="background:var(--c4)"></span> Activity 1
-  </a>
-  <a class="toc-item" href="#act-2">
-    <span class="toc-dot" style="background:var(--c5)"></span> Activity 2
-  </a>
-  <a class="toc-item" href="#act-3">
-    <span class="toc-dot" style="background:var(--c6)"></span> Activity 3
-  </a>
-
+  <a class="toc-item" href="#act-1"><span class="toc-dot" style="background:var(--c4)"></span> Activity 1</a>
+  <a class="toc-item" href="#act-2"><span class="toc-dot" style="background:var(--c5)"></span> Activity 2</a>
+  <a class="toc-item" href="#act-3"><span class="toc-dot" style="background:var(--c6)"></span> Activity 3</a>
   <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:14px 0 4px;padding-left:18px;">Social Responsibility</div>
-
-  <a class="toc-item" href="#act-4">
-    <span class="toc-dot" style="background:var(--c7)"></span> Activity 4
-  </a>
-  <a class="toc-item" href="#act-5">
-    <span class="toc-dot" style="background:var(--c1)"></span> Activity 5
-  </a>
-
-  <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:14px 0 4px;padding-left:18px;">Ethical & Environmental</div>
-
-  <a class="toc-item" href="#act-6">
-    <span class="toc-dot" style="background:var(--c3)"></span> Activity 6
-  </a>
-  <a class="toc-item" href="#act-7">
-    <span class="toc-dot" style="background:var(--c2)"></span> Activity 7
-  </a>
-
-  <a class="toc-item" href="#page-conclusion" style="margin-top:10px;">
-    <span class="toc-dot" style="background:#fff"></span> Conclusion
-  </a>
+  <a class="toc-item" href="#act-4"><span class="toc-dot" style="background:var(--c7)"></span> Activity 4</a>
+  <a class="toc-item" href="#act-5"><span class="toc-dot" style="background:var(--c1)"></span> Activity 5</a>
+  <div style="font-family:'Space Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin:14px 0 4px;padding-left:18px;">Ethical &amp; Environmental</div>
+  <a class="toc-item" href="#act-6"><span class="toc-dot" style="background:var(--c3)"></span> Activity 6</a>
+  <a class="toc-item" href="#act-7"><span class="toc-dot" style="background:var(--c2)"></span> Activity 7</a>
+  <a class="toc-item" href="#page-conclusion" style="margin-top:10px;"><span class="toc-dot" style="background:#fff"></span> Conclusion</a>
 </nav>
 
 <main>
 
-<!-- ══════════════════════════════════════
-     PAGE 1 — TITLE
-══════════════════════════════════════ -->
+<!-- PAGE 1 — TITLE -->
 <section class="page" id="page-title">
-  <!-- decorative circles -->
   <div class="title-bg-circles" aria-hidden="true">
     <span style="width:340px;height:340px;background:var(--c1);top:-80px;right:-80px;animation-delay:0s"></span>
     <span style="width:220px;height:220px;background:var(--c4);bottom:-60px;left:80px;animation-delay:1.5s"></span>
     <span style="width:140px;height:140px;background:var(--c2);bottom:120px;right:200px;animation-delay:3s"></span>
     <span style="width:90px;height:90px;background:var(--c3);top:160px;left:30px;animation-delay:2s"></span>
   </div>
-
   <div style="position:relative;z-index:2;">
     <div class="title-badge">✦ CW Final Requirement ✦</div>
-    <h1 class="title-main">
-      Angelenean Journey<br>Towards <span>Responsible</span><br>Global Citizenship
-    </h1>
+    <h1 class="title-main">Angelenean Journey<br>Towards <span>Responsible</span><br>Global Citizenship</h1>
     <p class="title-sub">A Comprehensive Portfolio of Global Awareness, Social Responsibility &amp; Ethical Stewardship</p>
-
     <div class="title-meta">
-      <div class="title-meta-chip">
-        <strong>Student Name</strong>
-        Tuazon, Anthea
-      </div>
-      <div class="title-meta-chip">
-        <strong>Section</strong>
-        BSIT-2B
-      </div>
-      <div class="title-meta-chip">
-        <strong>Semester</strong>
-        2nd Semester
-      </div>
+      <div class="title-meta-chip"><strong>Student Name</strong>Tuazon, Anthea</div>
+      <div class="title-meta-chip"><strong>Section</strong>BSIT-2B</div>
+      <div class="title-meta-chip"><strong>Semester</strong>2nd Semester</div>
     </div>
   </div>
 </section>
 
 <div class="page-divider"></div>
 
-<!-- ══════════════════════════════════════
-     PAGE 2 — TABLE OF CONTENTS
-══════════════════════════════════════ -->
+<!-- PAGE 2 — TABLE OF CONTENTS -->
 <section class="page" id="page-toc" style="min-height:100vh;justify-content:flex-start;padding-top:70px;">
   <div class="reveal">
     <p class="section-label">Page 2</p>
     <h2 class="section-heading">Table of<br><em style="font-style:italic;color:var(--c1)">Contents</em></h2>
-
     <div class="toc-grid">
-      <a class="toc-card" href="#page-title" style="border-color:var(--c1)22">
-        <div class="toc-num" style="background:var(--c1)">01</div>
-        <span class="toc-label">Title Page</span>
-      </a>
-      <a class="toc-card" href="#page-toc" style="border-color:var(--c2)22">
-        <div class="toc-num" style="background:var(--c2);color:var(--dark)">02</div>
-        <span class="toc-label">Table of Contents</span>
-      </a>
-      <a class="toc-card" href="#page-intro" style="border-color:var(--c3)22">
-        <div class="toc-num" style="background:var(--c3)">03</div>
-        <span class="toc-label">Introduction &amp; Global Citizen Profile</span>
-      </a>
-      <a class="toc-card" href="#act-1" style="border-color:var(--c4)22">
-        <div class="toc-num" style="background:var(--c4)">04</div>
-        <span class="toc-label">Activity 1 — Global Awareness</span>
-      </a>
-      <a class="toc-card" href="#act-2" style="border-color:var(--c5)22">
-        <div class="toc-num" style="background:var(--c5)">05</div>
-        <span class="toc-label">Activity 2 — Cultural Exploration</span>
-      </a>
-      <a class="toc-card" href="#act-3" style="border-color:var(--c6)22">
-        <div class="toc-num" style="background:var(--c6)">06</div>
-        <span class="toc-label">Activity 3 — Cultural Exploration</span>
-      </a>
-      <a class="toc-card" href="#act-4" style="border-color:var(--c7)22">
-        <div class="toc-num" style="background:var(--c7)">07</div>
-        <span class="toc-label">Activity 4 — Social Responsibility</span>
-      </a>
-      <a class="toc-card" href="#act-5" style="border-color:var(--c1)22">
-        <div class="toc-num" style="background:var(--c1)">08</div>
-        <span class="toc-label">Activity 5 — Social Responsibility</span>
-      </a>
-      <a class="toc-card" href="#act-6" style="border-color:var(--c3)22">
-        <div class="toc-num" style="background:var(--c3)">09</div>
-        <span class="toc-label">Activity 6 — Ethical Consumption</span>
-      </a>
-      <a class="toc-card" href="#act-7" style="border-color:var(--c2)22">
-        <div class="toc-num" style="background:var(--c2);color:var(--dark)">10</div>
-        <span class="toc-label">Activity 7 — Environmental Stewardship</span>
-      </a>
-      <a class="toc-card" href="#page-conclusion" style="border-color:#1a1a2e22">
-        <div class="toc-num" style="background:var(--dark)">11</div>
-        <span class="toc-label">Conclusion &amp; Reflection</span>
-      </a>
+      <a class="toc-card" href="#page-title" style="border-color:var(--c1)22"><div class="toc-num" style="background:var(--c1)">01</div><span class="toc-label">Title Page</span></a>
+      <a class="toc-card" href="#page-toc" style="border-color:var(--c2)22"><div class="toc-num" style="background:var(--c2);color:var(--dark)">02</div><span class="toc-label">Table of Contents</span></a>
+      <a class="toc-card" href="#page-intro" style="border-color:var(--c3)22"><div class="toc-num" style="background:var(--c3)">03</div><span class="toc-label">Introduction &amp; Global Citizen Profile</span></a>
+      <a class="toc-card" href="#act-1" style="border-color:var(--c4)22"><div class="toc-num" style="background:var(--c4)">04</div><span class="toc-label">Activity 1 — Global Awareness</span></a>
+      <a class="toc-card" href="#act-2" style="border-color:var(--c5)22"><div class="toc-num" style="background:var(--c5)">05</div><span class="toc-label">Activity 2 — Cultural Exploration</span></a>
+      <a class="toc-card" href="#act-3" style="border-color:var(--c6)22"><div class="toc-num" style="background:var(--c6)">06</div><span class="toc-label">Activity 3 — Cultural Exploration</span></a>
+      <a class="toc-card" href="#act-4" style="border-color:var(--c7)22"><div class="toc-num" style="background:var(--c7)">07</div><span class="toc-label">Activity 4 — Social Responsibility</span></a>
+      <a class="toc-card" href="#act-5" style="border-color:var(--c1)22"><div class="toc-num" style="background:var(--c1)">08</div><span class="toc-label">Activity 5 — Social Responsibility</span></a>
+      <a class="toc-card" href="#act-6" style="border-color:var(--c3)22"><div class="toc-num" style="background:var(--c3)">09</div><span class="toc-label">Activity 6 — Ethical Consumption</span></a>
+      <a class="toc-card" href="#act-7" style="border-color:var(--c2)22"><div class="toc-num" style="background:var(--c2);color:var(--dark)">10</div><span class="toc-label">Activity 7 — Environmental Stewardship</span></a>
+      <a class="toc-card" href="#page-conclusion" style="border-color:#1a1a2e22"><div class="toc-num" style="background:var(--dark)">11</div><span class="toc-label">Conclusion &amp; Reflection</span></a>
     </div>
-
-    <!-- Google Doc Link -->
     <div class="doc-link-box" style="margin-top:36px;">
       <div class="doc-link-icon">📄</div>
       <div>
@@ -650,9 +324,7 @@
 
 <div class="page-divider"></div>
 
-<!-- ══════════════════════════════════════
-     PAGE 3 — INTRODUCTION
-══════════════════════════════════════ -->
+<!-- PAGE 3 — INTRODUCTION -->
 <section class="page" id="page-intro">
   <div class="reveal">
     <p class="section-label">Page 3</p>
@@ -660,16 +332,10 @@
       <div>
         <h2 class="section-heading">Introduction &amp;<br><em style="font-style:italic;color:var(--c4)">My Global<br>Citizen Profile</em></h2>
         <div class="intro-text">
-          <p>
-            Welcome to my portfolio — a living record of my journey toward becoming a more informed, empathetic, and responsible global citizen. Within these pages, you will find a curated collection of activities that shaped my understanding of the world and my role within it.
-          </p>
-          <p>
-            This portfolio is organized into three thematic areas: Global Awareness &amp; Cultural Exploration, Social Responsibility Initiatives, and Ethical Consumption &amp; Environmental Stewardship. Each section reflects real experiences and personal growth.
-          </p>
-          
+          <p>Welcome to my portfolio — a living record of my journey toward becoming a more informed, empathetic, and responsible global citizen. Within these pages, you will find a curated collection of activities that shaped my understanding of the world and my role within it.</p>
+          <p>This portfolio is organized into three thematic areas: Global Awareness &amp; Cultural Exploration, Social Responsibility Initiatives, and Ethical Consumption &amp; Environmental Stewardship. Each section reflects real experiences and personal growth.</p>
         </div>
       </div>
-
       <div class="profile-card">
         <div class="profile-avatar">🌏</div>
         <div class="profile-name">Tuazon, Anthea</div>
@@ -694,11 +360,7 @@
 
 <div class="page-divider"></div>
 
-<!-- ══════════════════════════════════════
-     ACTIVITIES — GLOBAL AWARENESS & CULTURAL EXPLORATION
-══════════════════════════════════════ -->
-
-<!-- ACTIVITY 1 -->
+<!-- ══ ACTIVITY 1 ══ -->
 <section class="page activity-page" id="act-1" style="border-color:var(--c4);">
   <div class="reveal">
     <div class="activity-header">
@@ -708,22 +370,21 @@
         <h2 class="activity-title">Experience on Globalization</h2>
       </div>
     </div>
-
     <div class="activity-grid">
       <div class="activity-box">
         <h4>Description</h4>
-        <p>Globalization was able to link people through online platforms. It involved accessing virtual spaces, sharing information 
-          instantly, and engaging with others through digital tool that support education, advocacy, and collaboration.</p>
+        <p>Globalization was able to link people through online platforms. It involved accessing virtual spaces, sharing information instantly, and engaging with others through digital tools that support education, advocacy, and collaboration.</p>
       </div>
       <div class="activity-box">
         <h4>Result / Impact on Self</h4>
-        <p>Globalization is both empowering and challenging as it highlights digital connectivity that makes education and communication 
-          easier, it also warns about reduced family time, and cultural dilution. </p>
+        <p>Globalization is both empowering and challenging as it highlights digital connectivity that makes education and communication easier, it also warns about reduced family time, and cultural dilution.</p>
       </div>
       <div class="activity-box evidence-box">
         <h4>📎 Evidence &amp; Proof</h4>
-        <div class="evidence-placeholder"><img src="M1.jpg" alt="Globalization Image" width = "20%"></div>
-        <p style="margin-top:10px;font-size:.82rem;color:#888;">
+        <div class="evidence-img-wrap" data-caption="Activity 1 — Experience on Globalization">
+          <img src="M1.jpg" alt="Globalization Evidence">
+          <span class="zoom-hint">🔍 Click to enlarge</span>
+        </div>
       </div>
     </div>
   </div>
@@ -731,7 +392,7 @@
 
 <div class="page-divider"></div>
 
-<!-- ACTIVITY 2 -->
+<!-- ══ ACTIVITY 2 ══ -->
 <section class="page activity-page" id="act-2" style="border-color:var(--c5);background:#fdf8ff;">
   <div class="reveal">
     <div class="activity-header">
@@ -741,8 +402,6 @@
         <h2 class="activity-title">Snapshots Locally</h2>
       </div>
     </div>
-
-
     <div class="activity-grid">
       <div class="activity-box">
         <h4>Description</h4>
@@ -750,13 +409,14 @@
       </div>
       <div class="activity-box">
         <h4>Result / Impact on Self</h4>
-        <p>This shows that globalization is layered not a progress or loss but a mix of preservation, adaptation, and erosion. It is a reminder
-           that culture is constantly negotiating between local and global trends.</p>
+        <p>This shows that globalization is layered — not a progress or loss but a mix of preservation, adaptation, and erosion. It is a reminder that culture is constantly negotiating between local and global trends.</p>
       </div>
       <div class="activity-box evidence-box">
         <h4>📎 Evidence &amp; Proof</h4>
-        <div class="evidence-placeholder"><img src="M4.png" width="20%"></div>
-        <p style="margin-top:10px;font-size:.82rem;color:#888;">
+        <div class="evidence-img-wrap" data-caption="Activity 2 — Snapshots Locally">
+          <img src="M4.png" alt="Snapshots Locally Evidence">
+          <span class="zoom-hint">🔍 Click to enlarge</span>
+        </div>
       </div>
     </div>
   </div>
@@ -764,7 +424,7 @@
 
 <div class="page-divider"></div>
 
-<!-- ACTIVITY 3 -->
+<!-- ══ ACTIVITY 3 ══ -->
 <section class="page activity-page" id="act-3" style="border-color:var(--c6);background:#fff8f0;">
   <div class="reveal">
     <div class="activity-header">
@@ -774,7 +434,6 @@
         <h2 class="activity-title">My Global City Experience</h2>
       </div>
     </div>
-
     <div class="activity-grid">
       <div class="activity-box">
         <h4>Description</h4>
@@ -782,13 +441,14 @@
       </div>
       <div class="activity-box">
         <h4>Result / Impact on Self</h4>
-        <p>This showed that when a country puts its citizens first, everything else follows. Great infrastructure, 
-          integrated transportations,etc.</p>
+        <p>This showed that when a country puts its citizens first, everything else follows — great infrastructure, integrated transportation, and more.</p>
       </div>
       <div class="activity-box evidence-box">
         <h4>📎 Evidence &amp; Proof</h4>
-        <div class="evidence-placeholder"><img src="Singapore.png" width="20%"></div>
-        <p style="margin-top:10px;font-size:.82rem;color:#888;"></p>
+        <div class="evidence-img-wrap" data-caption="Activity 3 — My Global City Experience (Singapore)">
+          <img src="Singapore.png" alt="Singapore Global City Evidence">
+          <span class="zoom-hint">🔍 Click to enlarge</span>
+        </div>
       </div>
     </div>
   </div>
@@ -796,22 +456,16 @@
 
 <div class="page-divider"></div>
 
-<!-- ══════════════════════════════════════
-     SOCIAL RESPONSIBILITY INITIATIVES
-══════════════════════════════════════ -->
-
-<!-- ACTIVITY 4 -->
+<!-- ══ ACTIVITY 4 ══ -->
 <section class="page activity-page" id="act-4" style="border-color:var(--c7);background:#f0fffe;">
   <div class="reveal">
     <div class="activity-header">
       <div class="activity-icon" style="background:#e0fffe;">🤝</div>
       <div>
         <div class="activity-cat" style="color:var(--c7);">Social Responsibility Initiatives · Activity 4</div>
-        <h2 class="activity-title">Trade Green Live Green </h2>
+        <h2 class="activity-title">Trade Green Live Green</h2>
       </div>
     </div>
-
-
     <div class="activity-grid">
       <div class="activity-box">
         <h4>Description</h4>
@@ -819,13 +473,17 @@
       </div>
       <div class="activity-box">
         <h4>Result / Impact on Self</h4>
-        <p>A stronger sense of responsibility, trade is not just about goods moving, it is also about the planet's health. It pushes me to 
-          think about supporting sustainable practices and being mindful of consumption choices.</p>
+        <p>A stronger sense of responsibility — trade is not just about goods moving, it is also about the planet's health. It pushes me to think about supporting sustainable practices and being mindful of consumption choices.</p>
       </div>
       <div class="activity-box evidence-box">
         <h4>📎 Evidence &amp; Proof</h4>
-        <div class="evidence-placeholder"><img src="Trade Green.png" width="20%"></div>
-        <p style="margin-top:10px;font-size:.82rem;color:#888;">Hyperlink: <a href="https://codavu5020.github.io/CW-DigAd/" style="color:var(--c7);">Link to site</a></p>
+        <div class="evidence-img-wrap" data-caption="Activity 4 — Trade Green Live Green">
+          <img src="Trade Green.png" alt="Trade Green Evidence">
+          <span class="zoom-hint">🔍 Click to enlarge</span>
+        </div>
+        <p style="margin-top:10px;font-size:.82rem;color:#888;">
+          Hyperlink: <a href="https://codavu5020.github.io/CW-DigAd/" target="_blank" style="color:var(--c7);">Link to site ↗</a>
+        </p>
       </div>
     </div>
   </div>
@@ -833,33 +491,31 @@
 
 <div class="page-divider"></div>
 
-<!-- ACTIVITY 5 -->
+<!-- ══ ACTIVITY 5 ══ -->
 <section class="page activity-page" id="act-5" style="border-color:var(--c1);background:#fff5f5;">
   <div class="reveal">
     <div class="activity-header">
       <div class="activity-icon" style="background:#ffe8e8;">💪</div>
       <div>
         <div class="activity-cat" style="color:var(--c1);">Social Responsibility Initiatives · Activity 5</div>
-        <h2 class="activity-title"> Donation for Cancer Patients</h2>
+        <h2 class="activity-title">Donation for Cancer Patients</h2>
       </div>
     </div>
-
-
     <div class="activity-grid">
       <div class="activity-box">
         <h4>Description</h4>
-        <p>I choose to donate to cancer patients because I believe every act of kindness no matter if it is small or substantial, 
-          brings strength and hope to those fighting their toughest battles.</p>
+        <p>I chose to donate to cancer patients because I believe every act of kindness — no matter if it is small or substantial — brings strength and hope to those fighting their toughest battles.</p>
       </div>
       <div class="activity-box">
         <h4>Result / Impact on Self</h4>
-        <p>My donation to cancer patients through rewards points shows that my choices ripple outward, that shape lives and inspire others.
-           It is not about the financial support but about embodying kindness and responsibility in a world that needs it.</p>
+        <p>My donation to cancer patients through rewards points shows that my choices ripple outward, shaping lives and inspiring others. It is not about the financial support but about embodying kindness and responsibility in a world that needs it.</p>
       </div>
       <div class="activity-box evidence-box">
         <h4>📎 Evidence &amp; Proof</h4>
-        <div class="evidence-placeholder"><img src="Donation.png" width="50%"></div>
-        <p style="margin-top:10px;font-size:.82rem;color:#888;">
+        <div class="evidence-img-wrap" data-caption="Activity 5 — Donation for Cancer Patients">
+          <img src="Donation.png" alt="Donation Evidence">
+          <span class="zoom-hint">🔍 Click to enlarge</span>
+        </div>
       </div>
     </div>
   </div>
@@ -867,11 +523,7 @@
 
 <div class="page-divider"></div>
 
-<!-- ══════════════════════════════════════
-     ETHICAL CONSUMPTION & ENVIRONMENTAL STEWARDSHIP
-══════════════════════════════════════ -->
-
-<!-- ACTIVITY 6 -->
+<!-- ══ ACTIVITY 6 ══ -->
 <section class="page activity-page" id="act-6" style="border-color:var(--c3);background:#f2fff4;">
   <div class="reveal">
     <div class="activity-header">
@@ -881,13 +533,11 @@
         <h2 class="activity-title">[Activity Title Here]</h2>
       </div>
     </div>
-
     <div class="activity-meta">
       <div class="meta-chip">📅 Date: <strong>[Date of Activity]</strong></div>
       <div class="meta-chip">📍 Venue: <strong>[Location / Platform]</strong></div>
       <div class="meta-chip">⏱ Duration: <strong>[Duration]</strong></div>
     </div>
-
     <div class="activity-grid">
       <div class="activity-box">
         <h4>Description</h4>
@@ -899,7 +549,7 @@
       </div>
       <div class="activity-box evidence-box">
         <h4>📎 Evidence &amp; Proof</h4>
-        <div class="evidence-placeholder">[ Paste screenshot, photo, or insert hyperlink here ]</div>
+        <div class="evidence-empty">[ Paste screenshot or photo here ]</div>
         <p style="margin-top:10px;font-size:.82rem;color:#888;">Hyperlink: <a href="#" style="color:var(--c3);">[Insert link if applicable]</a></p>
       </div>
     </div>
@@ -908,7 +558,7 @@
 
 <div class="page-divider"></div>
 
-<!-- ACTIVITY 7 -->
+<!-- ══ ACTIVITY 7 ══ -->
 <section class="page activity-page" id="act-7" style="border-color:var(--c2);background:#fffef0;">
   <div class="reveal">
     <div class="activity-header">
@@ -918,13 +568,6 @@
         <h2 class="activity-title">[Activity Title Here]</h2>
       </div>
     </div>
-
-    <div class="activity-meta">
-      <div class="meta-chip">📅 Date: <strong>[Date of Activity]</strong></div>
-      <div class="meta-chip">📍 Venue: <strong>[Location / Platform]</strong></div>
-      <div class="meta-chip">⏱ Duration: <strong>[Duration]</strong></div>
-    </div>
-
     <div class="activity-grid">
       <div class="activity-box">
         <h4>Description</h4>
@@ -936,7 +579,7 @@
       </div>
       <div class="activity-box evidence-box">
         <h4>📎 Evidence &amp; Proof</h4>
-        <div class="evidence-placeholder">[ Paste screenshot, photo, or insert hyperlink here ]</div>
+        <div class="evidence-empty">[ Paste screenshot or photo here ]</div>
         <p style="margin-top:10px;font-size:.82rem;color:#888;">Hyperlink: <a href="#" style="color:#c9a000;">[Insert link if applicable]</a></p>
       </div>
     </div>
@@ -945,14 +588,11 @@
 
 <div class="page-divider"></div>
 
-<!-- ══════════════════════════════════════
-     CONCLUSION
-══════════════════════════════════════ -->
+<!-- CONCLUSION -->
 <section class="page" id="page-conclusion">
   <div class="conclusion-content reveal">
     <p class="section-label">Last Page</p>
     <h2 class="section-heading">Conclusion &amp;<br><em style="font-style:italic;color:var(--c2)">Reflection</em></h2>
-
     <div class="conclusion-pillars">
       <div class="pillar">
         <div class="pillar-icon">🌍</div>
@@ -970,25 +610,11 @@
         <p>Making conscious choices that protect and sustain our natural environment.</p>
       </div>
     </div>
-
-    <p>
-      Each experience whether donating, attending seminars, joining virtual planting, collectively shaped my indentity as a global 
-      citizen. Being a part of a global community means recognizing how even small, personal actions ripple outward. 
-    </p>
-    <p>
-      What I found most meaningful was the realization that responsibility is shared. These activities are connected to my values. and 
-      I was challenged to balance convenience with responsibility-whether in choosing eco-friendly alternatives or practicing safe 
-      online habits.  
-    </p>
-    <p>
-      Looking ahead, I plan to continue advocacies that promote environmental sustainability and digital responsibility. I will support
-      initiatives that encourage renewable energy, waste reduction, and biodiversity conservation. I intend to live with mindfulness; 
-      choose actions that protect both people and the plant, and inspire others to do the same.
-    </p>
-
+    <p>Each experience — whether donating, attending seminars, or joining virtual initiatives — collectively shaped my identity as a global citizen. Being part of a global community means recognizing how even small, personal actions ripple outward.</p>
+    <p>What I found most meaningful was the realization that responsibility is shared. These activities are connected to my values, and I was challenged to balance convenience with responsibility — whether in choosing eco-friendly alternatives or practicing safe online habits.</p>
+    <p>Looking ahead, I plan to continue advocacies that promote environmental sustainability and digital responsibility. I will support initiatives that encourage renewable energy, waste reduction, and biodiversity conservation. I intend to live with mindfulness; choose actions that protect both people and the planet, and inspire others to do the same.</p>
     <div style="margin-top:40px;padding-top:28px;border-top:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:16px;">
       <div style="font-size:1.8rem;">✦</div>
-
     </div>
   </div>
 </section>
@@ -997,29 +623,44 @@
 
 <script>
   // Scroll reveal
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('visible'); }
-    });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.1 });
-
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-  // Highlight active TOC item
+  // Active sidebar highlight
   const sections = document.querySelectorAll('section[id]');
   const tocLinks = document.querySelectorAll('#toc-sidebar .toc-item');
-
   window.addEventListener('scroll', () => {
     let current = '';
-    sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 200) current = s.id;
-    });
+    sections.forEach(s => { if(window.scrollY >= s.offsetTop - 200) current = s.id; });
     tocLinks.forEach(l => {
-      l.style.background = l.getAttribute('href') === '#' + current
-        ? 'rgba(255,255,255,.15)' : '';
-      l.style.color = l.getAttribute('href') === '#' + current ? '#fff' : '';
+      const active = l.getAttribute('href') === '#' + current;
+      l.style.background = active ? 'rgba(255,255,255,.15)' : '';
+      l.style.color = active ? '#fff' : '';
     });
   });
+
+  // Lightbox
+  const lb    = document.getElementById('lb');
+  const lbImg = document.getElementById('lb-img');
+  const lbCap = document.getElementById('lb-cap');
+
+  document.querySelectorAll('.evidence-img-wrap').forEach(wrap => {
+    wrap.addEventListener('click', () => {
+      const img = wrap.querySelector('img');
+      if(!img || !img.src) return;
+      lbImg.src = img.src;
+      lbCap.textContent = wrap.dataset.caption || '';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; lbImg.src = ''; }
+  document.getElementById('lb-x').addEventListener('click', closeLb);
+  lb.addEventListener('click', e => { if(e.target === lb) closeLb(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLb(); });
 </script>
 </body>
 </html>
